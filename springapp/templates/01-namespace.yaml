@@ -2,3 +2,7 @@ apiVersion: v1
 kind: Namespace
 metadata:
     name: {{ .Values.namespace.name }}
+    {{- if .Values.istioInjection.enabled }}
+    labels:
+        istio-injection: enabled
+    {{- end }}

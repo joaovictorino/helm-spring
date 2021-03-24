@@ -26,3 +26,6 @@ livenessProbe:
   enabled: true
 
 dnsPrefix: springapp
+
+istioInjection:
+  enabled: false
