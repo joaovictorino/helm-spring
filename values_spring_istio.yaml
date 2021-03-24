@@ -1,0 +1,5 @@
+springApp:
+  replicas: 3
+
+istioInjection:
+  enabled: true
