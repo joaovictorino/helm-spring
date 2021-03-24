@@ -1,0 +1,73 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  labels:
+    app: mysqldb-stfs
+  name: mysqldb-stfs
+  namespace: {{ .Values.namespace.name }}
+spec:
+  selector:
+    matchLabels:
+      app: mysqldb-stfs
+  serviceName: "mysqldb-stfs"
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: mysqldb-stfs
+    spec:
+      terminationGracePeriodSeconds: 20
+      containers:
+      - env:
+        - name: MYSQL_DATABASE
+          valueFrom: 
+            configMapKeyRef:
+              name: db-configmap
+              key: MYSQL_DATABASE
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom: 
+            configMapKeyRef:
+              name: db-configmap
+              key: MYSQL_ROOT_PASSWORD
+        - name: MYSQL_TCP_PORT
+          valueFrom: 
+            configMapKeyRef:
+              name: db-configmap
+              key: MYSQL_TCP_PORT
+        - name: TZ
+          valueFrom: 
+            configMapKeyRef:
+              name: app-configmap
+              key: TZ
+        image: mysql:8.0
+        imagePullPolicy: Always
+        name: mysqldb-stfs
+        ports:
+          - containerPort: 3306
+        {{- if .Values.readinessProbe.enabled }}
+        readinessProbe:
+            tcpSocket:
+              port: 3306
+            initialDelaySeconds: 5
+            periodSeconds: 5
+        {{- end }}
+        {{- if .Values.livenessProbe.enabled }}
+        livenessProbe:
+            tcpSocket:
+              port: 3306
+            initialDelaySeconds: 10
+            periodSeconds: 20
+        {{- end }}
+        volumeMounts:
+        - mountPath: /var/lib/mysql
+          name: {{ .Values.mySQLdb.volumeClaimTemplates.metadata.name }}
+  volumeClaimTemplates:
+  - metadata:
+      name: {{ .Values.mySQLdb.volumeClaimTemplates.metadata.name }}
+      namespace: {{ .Values.namespace.name }}
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: {{ .Values.mySQLdb.volumeClaimTemplates.spec.storageClassName }}
+      resources:
+        requests:
+          storage: {{ .Values.mySQLdb.volumeClaimTemplates.resources.requests.storage }}

@@ -1,0 +1,7 @@
+replicaCount: 2
+service:
+  port: 8080
+livenessProbe:
+  enabled: false
+readinessProbe:
+  enabled: false

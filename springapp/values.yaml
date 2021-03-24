@@ -1,0 +1,28 @@
+namespace:
+  name: aulainfra
+  
+tz: "America/Sao_Paulo"
+
+mySQLdb:
+  volumeClaimTemplates:
+    metadata:
+      name: db-claim
+    spec:
+      storageClassName: "default"
+    resources:
+      requests:
+        storage: 10Gi
+
+springApp:
+  replicas: 1
+  image:
+    repository: aulainfraacr.azurecr.io
+    name: springapp:latest
+
+readinessProbe:
+  enabled: true
+
+livenessProbe:
+  enabled: true
+
+dnsPrefix: springapp

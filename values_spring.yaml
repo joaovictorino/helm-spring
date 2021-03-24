@@ -1,0 +1,13 @@
+namespace:
+  name: testevalues
+  
+springApp:
+  replicas: 2
+
+readinessProbe:
+  enabled: false
+
+livenessProbe:
+  enabled: false
+
+dnsPrefix: springteste

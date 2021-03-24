@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: app
+  name: app
+  namespace: {{ .Values.namespace.name }}
+spec:
+  replicas: {{ .Values.springApp.replicas }}
+  selector:
+    matchLabels:
+      app: app
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 25%
+      maxSurge: 25%
+  template:
+    metadata:
+      labels:
+        app: app
+    spec:
+      containers:
+      - image: "{{ .Values.springApp.image.repository }}/{{ .Values.springApp.image.name }}"
+        imagePullPolicy: Always
+        name: backend
+        env:
+          - name: TZ
+            valueFrom:
+              configMapKeyRef:
+                name: app-configmap
+                key: TZ
+        ports:
+          - containerPort: 8080
+        {{- if .Values.readinessProbe.enabled }}
+        readinessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 5
+        {{- end }}
+        {{- if .Values.livenessProbe.enabled }}
+        livenessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            initialDelaySeconds: 15
+            periodSeconds: 20
+        {{- end }}
+        resources: {}
+      restartPolicy: Always
+      serviceAccountName: ""
+status: {}
