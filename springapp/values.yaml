@@ -16,7 +16,7 @@ mySQLdb:
 springApp:
   replicas: 1
   image:
-    repository: aulainfraacr.azurecr.io
+    repository: aulainfraacrk.azurecr.io
     name: springapp:latest
 
 readinessProbe:
@@ -25,7 +25,7 @@ readinessProbe:
 livenessProbe:
   enabled: true
 
-dnsPrefix: springapp
+dnsPrefix: springpetapp
 
 istioInjection:
   enabled: false
