@@ -24,3 +24,8 @@ Voltar versão
 ````sh
 helm rollback apachesrv 1
 ````
+
+Instalando o Chart do projeto
+````sh
+helm install -f values_spring.yaml springapp ./springapp
+````
