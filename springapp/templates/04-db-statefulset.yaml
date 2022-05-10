@@ -67,7 +67,7 @@ spec:
       namespace: {{ .Values.namespace.name }}
     spec:
       accessModes: [ "ReadWriteOnce" ]
-      storageClassName: {{ .Values.mySQLdb.volumeClaimTemplates.spec.storageClassName }}
+      storageClassName: "default"
       resources:
         requests:
           storage: {{ .Values.mySQLdb.volumeClaimTemplates.resources.requests.storage }}

@@ -5,9 +5,9 @@ springApp:
   replicas: 2
 
 readinessProbe:
-  enabled: false
+  enabled: true
 
 livenessProbe:
-  enabled: false
+  enabled: true
 
 dnsPrefix: springteste

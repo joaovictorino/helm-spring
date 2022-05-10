@@ -7,8 +7,6 @@ mySQLdb:
   volumeClaimTemplates:
     metadata:
       name: db-claim
-    spec:
-      storageClassName: "default"
     resources:
       requests:
         storage: 10Gi
