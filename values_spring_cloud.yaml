@@ -11,7 +11,7 @@ springApp:
   service:
     type: LoadBalancer
 mysql:
-  namespaceOverride: aulainfra
+  namespaceOverride: testevalues
   architecture: standalone
   auth:
     rootPassword: "root"
