@@ -1,0 +1,22 @@
+namespace:
+  name: testevalues
+
+springApp:
+  replicas: 2
+  readinessProbe:
+    enabled: true
+  livenessProbe:
+    enabled: true
+  dnsPrefix: springteste
+  service:
+    type: LoadBalancer
+mysql:
+  namespaceOverride: aulainfra
+  architecture: standalone
+  auth:
+    rootPassword: "root"
+    createDatabase: true
+    database: petclinic
+  primary:
+    podLabels:
+      app: mysqldb-stfs
