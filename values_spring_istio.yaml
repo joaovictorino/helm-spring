@@ -1,5 +1,7 @@
 springApp:
   replicas: 3
+  service:
+    type: ClusterIP
 
 istioInjection:
   enabled: true

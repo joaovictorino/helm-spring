@@ -3,7 +3,7 @@ apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
   name: springapp-virtualservice-db
-  namespace: aulainfra
+  namespace: {{ .Values.namespace.name }}
 spec:
   hosts:
     - mysqldb.aulainfra.svc.cluster.local

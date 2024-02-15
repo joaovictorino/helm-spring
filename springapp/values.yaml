@@ -1,29 +1,31 @@
 namespace:
   name: aulainfra
-  
+
 tz: "America/Sao_Paulo"
 
-mySQLdb:
-  volumeClaimTemplates:
-    metadata:
-      name: db-claim
-    resources:
-      requests:
-        storage: 10Gi
+istioInjection:
+  enabled: false
 
 springApp:
   replicas: 1
   image:
-    repository: aulainfraacrk.azurecr.io
-    name: springapp:latest
+    repository: jhvs1984
+    name: spring-app:latest
+  readinessProbe:
+    enabled: true
+  livenessProbe:
+    enabled: true
+  dnsPrefix: springpetapp
+  service:
+    type: NodePort
 
-readinessProbe:
-  enabled: true
-
-livenessProbe:
-  enabled: true
-
-dnsPrefix: springpetapp
-
-istioInjection:
-  enabled: false
+mysql:
+  namespaceOverride: aulainfra
+  architecture: standalone
+  auth:
+    rootPassword: "root"
+    createDatabase: true
+    database: petclinic
+  primary:
+    podLabels:
+      app: mysqldb-stfs

@@ -32,7 +32,7 @@ spec:
                 key: TZ
         ports:
           - containerPort: 8080
-        {{- if .Values.readinessProbe.enabled }}
+        {{- if .Values.springApp.readinessProbe.enabled }}
         readinessProbe:
             httpGet:
               path: /
@@ -40,7 +40,7 @@ spec:
             initialDelaySeconds: 5
             periodSeconds: 5
         {{- end }}
-        {{- if .Values.livenessProbe.enabled }}
+        {{- if .Values.springApp.livenessProbe.enabled }}
         livenessProbe:
             httpGet:
               path: /
